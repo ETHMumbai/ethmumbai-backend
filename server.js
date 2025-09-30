@@ -1,11 +1,15 @@
-import mongoose from "mongoose";
+import express from 'express';
+import mongoose from 'mongoose';
 
-let isConnected = false; // global mongoose connection state
+// Set up the app
+const app = express();
+app.use(express.json()); // middleware to parse JSON requests
+
+let isConnected = false;
 
 // Connect to MongoDB
 async function connectDB() {
   if (isConnected) return;
-
   try {
     await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
@@ -25,16 +29,10 @@ const subscriberSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   createdAt: { type: Date, default: Date.now },
 });
+const Subscriber = mongoose.models.Subscriber || mongoose.model("Subscriber", subscriberSchema);
 
-const Subscriber =
-  mongoose.models.Subscriber || mongoose.model("Subscriber", subscriberSchema);
-
-// API handler
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ status: "error", message: "Method not allowed" });
-  }
-
+// API Handler for subscription route
+app.post('/api/subscribe', async (req, res) => {
   try {
     await connectDB();
 
@@ -54,4 +52,10 @@ export default async function handler(req, res) {
     console.error("❌ Subscribe error:", err);
     res.status(500).json({ status: "error", message: "Server error" });
   }
-}
+});
+
+// Start the server
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Server running on http://localhost:${PORT}`);
+});
