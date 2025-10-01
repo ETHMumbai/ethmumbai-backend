@@ -1,3 +1,4 @@
+// pages.api/subscribers.js
 import connectDB from '../../lib/connectDB';
 import Subscriber from '../../models/subscriber';
 
