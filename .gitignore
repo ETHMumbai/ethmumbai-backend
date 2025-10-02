@@ -61,3 +61,4 @@ dump/
 # Optional:
 # If you're uploading only production code, you might also exclude:
 *.tgz
+.vercel

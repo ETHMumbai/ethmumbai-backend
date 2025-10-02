@@ -2,13 +2,16 @@
   "name": "ethmumbai-backend",
   "version": "1.0.0",
   "type": "module",
+  "main": "server.js",
   "scripts": {
-    "dev": "vercel dev", 
-    "build": "vercel build", 
-    "deploy": "vercel deploy" 
+    "dev": "vercel dev",
+    "start": "node server.js",
+    "build": "echo 'Nothing to build for Express'"
   },
   "dependencies": {
-    "mongoose": "^8.18.2",
-    "dotenv": "^17.2.2"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.8.2"
   }
 }

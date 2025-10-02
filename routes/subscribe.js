@@ -1,14 +1,12 @@
-// pages/api/subscribe.js
-import connectDB from '../../lib/connectDB';
-import Subscriber from '../../models/subscriber';
+// routes/subscribe.js
+import express from 'express';
+import Subscriber from '../models/subscriber.js';
+import connectDB from '../lib/connectDB.js';
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ status: 'error', message: 'Method not allowed' });
-  }
+const router = express.Router();
 
+router.post('/', async (req, res) => {
   try {
-    // Connect to DB
     await connectDB();
 
     const { email } = req.body;
@@ -28,4 +26,6 @@ export default async function handler(req, res) {
     console.error('Subscribe error:', err);
     res.status(500).json({ status: 'error', message: 'There was an error from our side. Please try again.' });
   }
-}
+});
+
+export default router;
